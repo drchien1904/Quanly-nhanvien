@@ -12,21 +12,22 @@ function init() {
   // Bởi vì JSON.stringify tự động loại bỏ các phương thức bên trong object => các object employee bên trong mảng bị mất hàm calcScore
 
   for (var i = 0; i < employees.length; i++) {
+    //Tạo ra biến employee nhưng anh ko sử dụng
     var employee = employees[i];
-    employees[i] = new employee(
-        employee.tknv,
-        employee.name,
-        employee.email,
-        employee.password,
-        employee.datepicker,
-        employee.luongCB,
-        employee.chucvu,
-        employee.gioLam,
-        employee.tongLuong,
+    //Sai cú pháp
+    employees[i] = new Employee(
+      employee.tknv,
+      employee.name,
+      employee.email,
+      employee.password,
+      employee.datePicker,
+      employee.luongCB,
+      employee.chucvu,
+      employee.gioLam,
+      employee.tongLuong
     );
   }
 
-  
   // B2: Gọi hàm display để hiển thị ra giao diện
   display(employees);
 }
@@ -37,44 +38,33 @@ function addEmployee() {
   var name = document.getElementById("name").value;
   var email = document.getElementById("email").value;
   var password = document.getElementById("password").value;
-  var datepicker = document.getElementById("datepicker").value;
+  var datePicker = document.getElementById("datePicker").value;
   var luongCB = document.getElementById("luongCB").value;
   var chucvu = document.getElementById("chucvu").value;
   var gioLam = +document.getElementById("gioLam").value;
   var tongLuong = +document.getElementById("tongLuong").value;
 
-  // Kiểm tra hợp lệ (validation)
-  // Kĩ thuật đặt cờ hiệu
-  // var isValid = true;
-  // isValid = isValid && isRequired(id);
-  // isValid &= isRequired(name);
-  // isValid &= isRequired(email);
-  // isValid &= isRequired(password);
-  // isValid &= isRequired(dateOfBirth);
-  // isValid &= isRequired(course);
-  // isValid &= isRequired(math);
-  // isValid &= isRequired(physics);
-  // isValid &= isRequired(chemistry);
+  // var isValid = validation();
 
-  var isValid = validation();
-
-  if (!isValid) {
-    alert("Vui lòng nhập vào các giá trị");
-    return;
-  }
+  // if (!isValid) {
+  //   alert("Vui lòng nhập vào các giá trị");
+  //   return;
+  // }
 
   // B2: Khởi tạo đối tượng Employee từ lớp đối tượng employee
-  var employee = new employee(
+  //Đối tượng là Employee ko phải employee
+  var employee = new Employee(
     tknv,
     name,
     email,
     password,
-    datepicker,
+    datePicker,
     luongCB,
     chucvu,
     gioLam,
-    tongLuong,
+    tongLuong
   );
+  console.log(employee);
 
   // B3: Hiển thị employee vừa thêm lên trên giao diện (table)
   // Thêm employee vừa tạo vào mảng employees
@@ -93,7 +83,7 @@ function addEmployee() {
 }
 
 function display(employees) {
-  var tbodyEl = document.getElementById("tableDanhSach");
+  var tbodyEl = document.getElementById("tbodyNV");
   // Chứa nội dung html sẽ được thêm vào bên trong tbody
   var html = "";
 
@@ -104,7 +94,7 @@ function display(employees) {
     console.log(employee);
     html += `
       <tr>
-      <td>${employee.id}</td>
+      <td>${employee.tknv}</td>
       <td>${employee.name}</td>
       <td>${employee.email}</td>
       <td>${employee.datepicker}</td>
@@ -113,7 +103,7 @@ function display(employees) {
         <td>
           <button
             class="btn btn-success"
-            onclick="selectemployee('${employee.id}')"
+            
           >
             Cập nhật
           </button>
@@ -126,6 +116,7 @@ function display(employees) {
         </td>
       </tr>
     `;
+    // onclick="selectemployee('${employee.id}')"
   }
 
   // Đưa nội dung html được tạo động từ các đối tượng employee vào bên trong tbody
@@ -153,7 +144,7 @@ function searchemployee() {
   // B1: DOM lấy value
   var searchValue = document.getElementById("txtSearch").value;
   searchValue = searchValue.toLowerCase();
-  // B2: Lọc ra 1 mảng mới thoả mãn điều kiện giá trị searchValue phải bằng với tên SV
+  // B2: Lọc ra 1 mảng mới thoả mãn điều kiện giá trị searchValue phải bằng với tên NV
   // 'Nguyễn Đức Hiếu'.indexOf("Hiếu") => 11
   // 'Nguyễn Đức Hiếu'.indexOf("Khải") => -1
 
@@ -174,14 +165,14 @@ function resetForm() {
   document.getElementById("name").value = "";
   document.getElementById("email").value = "";
   document.getElementById("password").value = "";
-  document.getElementById("datepicker").value = "";
+  document.getElementById("datePicker").value = "";
   document.getElementById("luongCB").value = "";
   document.getElementById("chucvu").value = "";
   document.getElementById("gioLam").value = "";
   document.getElementById("tongLuong").value = "";
 
-  document.getElementById("tknv").disabled = false;
-  document.getElementById("btnAddemployee").disabled = false;
+  // document.getElementById("tknv").disabled = false;
+  // document.getElementById("btnAddemployee").disabled = false;
 }
 
 // function này được gọi khi click vào nút Cập Nhật của 1 nhân viên trên table
@@ -195,14 +186,14 @@ function selectEmployee(employeeId) {
   document.getElementById("name").value = employee.name;
   document.getElementById("email").value = employee.email;
   document.getElementById("password").value = employee.password;
-  document.getElementById("datepicker").value = employee.datepicker;
+  document.getElementById("datePicker").value = employee.datePicker;
   document.getElementById("luongCB").value = employee.course;
   document.getElementById("chucvu").value = employee.chucvu;
   document.getElementById("gioLam").value = employee.gioLam;
   document.getElementById("tongLuong").value = employee.tongLuong;
 
   // disabled input số tài khoản nhân Viên và button Thêm nhân Viên
-  document.getElementById("txtMaSV").disabled = true;
+  document.getElementById("txtMaNV").disabled = true;
   document.getElementById("btnAddemployee").disabled = true;
 }
 
@@ -222,11 +213,11 @@ function findemployee(employeeId) {
 // Hàm nãy sẽ được gọi khi click vào nút Cập Nhật ở bên dưới form
 function updateEmployee() {
   // B1: DOM lấy value từ các input
-   var tknv = document.getElementById("tknv").value;
+  var tknv = document.getElementById("tknv").value;
   var name = document.getElementById("name").value;
   var email = document.getElementById("email").value;
   var password = document.getElementById("password").value;
-  var datepicker = document.getElementById("datepicker").value;
+  var datePicker = document.getElementById("datePicker").value;
   var luongCB = +document.getElementById("luongCB").value;
   var chucvu = document.getElementById("chucvu").value;
   var gioLam = +document.getElementById("gioLam").value;
@@ -238,11 +229,11 @@ function updateEmployee() {
     name,
     email,
     password,
-    datepicker,
+    datePicker,
     luongCB,
     chucvu,
     gioLam,
-    tongLuong,
+    tongLuong
   );
   // Viết B1 + B2 ra 1 hàm getemployee và return về employee
   // => var employee = getemployee()
@@ -261,27 +252,28 @@ function updateEmployee() {
 }
 
 // Các hàm kiểm tra xem input có hợp lệ hay không
+// Anh sai mã id phần này! sửa lại rồi test lại đi anh
 function validation() {
-  var id = document.getElementById("txtMaSV").value;
-  var name = document.getElementById("txtTenSV").value;
-  var email = document.getElementById("txtEmail").value;
-  var password = document.getElementById("txtPass").value;
-  var dateOfBirth = document.getElementById("txtNgaySinh").value;
-  var course = document.getElementById("khSV").value;
-  var math = +document.getElementById("txtDiemToan").value;
-  var physics = +document.getElementById("txtDiemLy").value;
-  var chemistry = +document.getElementById("txtDiemHoa").value;
+  var tknv = document.getElementById("tknv").value;
+  var name = document.getElementById("name").value;
+  var email = document.getElementById("email").value;
+  var password = document.getElementById("password").value;
+  var datePicker = document.getElementById("datePicker").value;
+  var luongCB = +document.getElementById("luongCB").value;
+  var chucvu = document.getElementById("chucvu").value;
+  var gioLam = +document.getElementById("gioLam").value;
+  var tongLuong = +document.getElementById("tongLuong").value;
 
   var isValid = true;
 
-  // MaSV không hợp lệ
-  if (!isRequired(id)) {
+  // MaNV không hợp lệ
+  if (!isRequired(tknv)) {
     isValid = false;
-    document.getElementById("spanMaSV").innerHTML = "Mã SV không được để trống";
-  } else if (!minLength(id, 3)) {
+    document.getElementById("tbTKNV").innerHTML = "Mã NV không được để trống";
+  } else if (!minLength(tknv, 3)) {
     isValid = false;
-    document.getElementById("spanMaSV").innerHTML =
-      "Mã SV phải có ít nhất 3 kí tự";
+    document.getElementById("tbTKNV").innerHTML =
+      "Mã NV phải có ít nhất 3 kí tự";
   }
 
   // Kiểm tra tên nhân viên
@@ -290,27 +282,26 @@ function validation() {
   var letters = new RegExp("^[A-Za-z]+$");
   if (!isRequired(name)) {
     isValid = false;
-    document.getElementById("spanTenSV").innerHTML =
-      "Tên SV không được để trống";
+    document.getElementById("tbTKNV").innerHTML = "Tên NV không được để trống";
   } else if (!minLength(name, 8)) {
     isValid = false;
-    document.getElementById("spanTenSV").innerHTML =
-      "Tên SV phải có ít nhất 8 kí tự";
+    document.getElementById("tbTKNV").innerHTML =
+      "Tên NV phải có ít nhất 8 kí tự";
   } else if (!letters.test(name)) {
     isValid = false;
-    document.getElementById("spanTenSV").innerHTML =
-      "Tên SV có kí tự không hợp lệ";
+    document.getElementById("tbTKNV").innerHTML =
+      "Tên NV có kí tự không hợp lệ";
   }
 
   // Dùng regex để kiểm tra email có đúng định dạng hay không
   var emailPattern = new RegExp("[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$");
   if (!isRequired(email)) {
     isValid = false;
-    document.getElementById("spanEmailSV").innerHTML =
+    document.getElementById("spanEmailNV").innerHTML =
       "Email SV không được để trống";
   } else if (!emailPattern.test(email)) {
     isValid = false;
-    document.getElementById("spanEmailSV").innerHTML =
+    document.getElementById("tbEmail").innerHTML =
       "Email SV không đúng định dạng";
   }
 
@@ -318,15 +309,15 @@ function validation() {
   var pwPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
   if (!isRequired(password)) {
     isValid = false;
-    document.getElementById("spanMatKhau").innerHTML =
-      "Mật khẩu SV không được để trống";
+    document.getElementById("tbMatKhau").innerHTML =
+      "Mật khẩu NV không được để trống";
   } else if (!pwPattern.test(password)) {
     isValid = false;
-    document.getElementById("spanMatKhau").innerHTML =
-      "Mật khẩu SV không đúng định dạng";
+    document.getElementById("tbMatKhau").innerHTML =
+      "Mật khẩu NV không đúng định dạng";
   } else {
     // Đúng
-    document.getElementById("spanMatKhau").innerHTML = "";
+    document.getElementById("tbMatKhau").innerHTML = "";
   }
 
   return isValid;
